@@ -116,7 +116,10 @@ export class OpensprinklerCard extends LitElement {
   }
 
   protected shouldUpdate(changedProps: PropertyValues): boolean {
-    if (!this._initialized) loadLanguages(hass)
+    if (!this._initialized) {
+      loadLanguages(this.hass);
+      this._initialized = true;
+    }
     if (!this.config) return false;
     if (changedProps.has('config')) return true;
 
