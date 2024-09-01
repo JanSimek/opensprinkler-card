@@ -6,6 +6,7 @@ import { UnsubscribeFunc } from 'home-assistant-js-websocket';
 
 import { fillConfig, TimerBarEntityRow } from 'lovelace-timer-bar-card/src/timer-bar-entity-row';
 import { EntityRegistryEntry, subscribeEntityRegistry } from './ha_entity_registry';
+import { localize } from './localize';
 import { OpensprinklerCardConfig, HassEntity } from './types';
 import { styles } from './styles';
 import "./editor";
@@ -219,7 +220,7 @@ export class OpensprinklerCard extends LitElement {
     if (hasRunOnce(entities)) programs.splice(0, 0, 'Once Program');
     if (hasManual(entities)) programs.push('Stations Manually');
 
-    if (programs.length > 0) return 'Running ' + programs.join(', ');
+    if (programs.length > 0) return '${localize(`program.running`)} ' + programs.join(', ');
     return '';
   }
 
