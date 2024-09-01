@@ -6,7 +6,7 @@ import { UnsubscribeFunc } from 'home-assistant-js-websocket';
 
 import { fillConfig, TimerBarEntityRow } from 'lovelace-timer-bar-card/src/timer-bar-entity-row';
 import { EntityRegistryEntry, subscribeEntityRegistry } from './ha_entity_registry';
-import { localize } from './localize';
+import { localize, loadLanguages } from './languages/localize';
 import { OpensprinklerCardConfig, HassEntity } from './types';
 import { styles } from './styles';
 import "./editor";
@@ -37,6 +37,7 @@ export class OpensprinklerCard extends LitElement {
   @state() private entities?: EntityRegistryEntry[];
   @state() private unsub?: UnsubscribeFunc;
   @state() private dialog!: MoreInfoDialog;
+  protected _initialized = false;
 
   public static async getConfigElement(): Promise<LovelaceCardEditor> {
     return document.createElement('opensprinkler-card-editor') as LovelaceCardEditor;
@@ -115,6 +116,7 @@ export class OpensprinklerCard extends LitElement {
   }
 
   protected shouldUpdate(changedProps: PropertyValues): boolean {
+    if (!this._initialized) loadLanguages(hass)
     if (!this.config) return false;
     if (changedProps.has('config')) return true;
 
